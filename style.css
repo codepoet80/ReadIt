@@ -1,0 +1,203 @@
+/* Old-reddit-style layout. Deliberately old-school CSS only:
+   floats and inline-block for layout (no flexbox, no grid, no
+   calc(), no CSS variables) so this renders correctly on ~2012-era
+   WebKit (webOS TouchPad and similar) as well as anything newer. */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Verdana, Geneva, Arial, sans-serif;
+    font-size: 13px;
+    color: #1a1a1b;
+    background: #e8e8e8;
+}
+
+a {
+    color: #0055aa;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#header {
+    background: #cee3f8;
+    border-bottom: 1px solid #5f99cf;
+}
+
+#headerContent {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 10px 15px;
+}
+
+#logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #00a884;
+}
+
+#logo:hover {
+    text-decoration: none;
+}
+
+#logoIcon {
+    width: 28px;
+    height: 28px;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+#tagline {
+    color: #4a4a4a;
+    font-size: 11px;
+    margin-left: 8px;
+}
+
+#content {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 12px 15px 40px 15px;
+    background: #ffffff;
+    border-left: 1px solid #d9d9d9;
+    border-right: 1px solid #d9d9d9;
+}
+
+#postList {
+    border-top: 1px solid #e5e5e5;
+}
+
+.post {
+    padding: 8px 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.rank {
+    display: inline-block;
+    width: 28px;
+    vertical-align: top;
+    color: #888888;
+    font-size: 12px;
+    float: left;
+    padding-top: 1px;
+}
+
+/* Thumbnail box. The image itself is already a pre-cropped 140x140
+   square JPEG (see includes/fetch.php - generated with GD server-side
+   so it displays correctly regardless of the source's format or
+   aspect ratio), so this just scales it down 1:1 - no CSS cropping
+   tricks needed. Empty (no thumbnail) boxes show as a flat gray
+   square, same as old reddit's default self-post icon. */
+.thumb {
+    display: block;
+    float: left;
+    width: 70px;
+    height: 70px;
+    background: #f0f0f0;
+    border: 1px solid #e5e5e5;
+    margin-right: 10px;
+}
+
+.thumb img {
+    display: block;
+    width: 70px;
+    height: 70px;
+}
+
+.postBody {
+    margin-left: 108px;
+}
+
+.postSingle .postBody {
+    margin-left: 0;
+}
+
+.title {
+    font-size: 15px;
+    line-height: 1.3em;
+}
+
+.postLink {
+    color: #1a1a1b;
+    font-weight: bold;
+}
+
+.domain {
+    color: #888888;
+    font-size: 11px;
+    font-weight: normal;
+    margin-left: 4px;
+}
+
+.postMeta {
+    color: #888888;
+    font-size: 11px;
+    margin-top: 2px;
+}
+
+.postMeta a {
+    color: #888888;
+}
+
+.source {
+    color: #556;
+}
+
+.teaser {
+    color: #444444;
+    font-size: 12px;
+    margin-top: 5px;
+    line-height: 1.4em;
+}
+
+.fullImageWrap {
+    margin-top: 10px;
+}
+
+.fullImage {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #e5e5e5;
+}
+
+.fullText {
+    font-size: 13px;
+    line-height: 1.5em;
+    color: #1a1a1b;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #eeeeee;
+}
+
+.fullText p {
+    margin-bottom: 10px;
+}
+
+.empty {
+    padding: 20px 0;
+    color: #666666;
+}
+
+#nav {
+    padding: 15px 0;
+    font-size: 12px;
+}
+
+#footer {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 15px;
+    color: #888888;
+    font-size: 11px;
+    text-align: center;
+}
+
+#footer a {
+    color: #888888;
+    text-decoration: underline;
+}

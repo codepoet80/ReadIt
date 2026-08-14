@@ -1,0 +1,5 @@
+thumbs/*
+!thumbs/.htaccess
+.DS_Store
+data/*
+!data/.htaccess

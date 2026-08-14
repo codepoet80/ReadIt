@@ -1,0 +1,3 @@
+# Generated JPEGs live here, served as plain static files. Just
+# stop the directory listing from being browsable.
+Options -Indexes
