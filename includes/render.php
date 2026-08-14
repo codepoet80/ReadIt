@@ -1,5 +1,13 @@
 <?php
 
+// Builds a site-internal URL that works whether the site is hosted
+// at the domain root or in a subdirectory (see BASE_PATH in
+// includes/config.php). $path should start with '/', e.g. ri_url('/style.css').
+function ri_url($path)
+{
+    return BASE_PATH . $path;
+}
+
 function ri_h($str)
 {
     return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');

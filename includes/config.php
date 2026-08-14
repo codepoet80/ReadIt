@@ -4,6 +4,15 @@
 define('SITE_NAME', 'ReadIt');
 define('SITE_TAGLINE', 'scroll without the brainrot');
 
+// If this site lives in a subdirectory rather than at your domain's
+// root (e.g. https://example.com/ReadIt/ instead of https://example.com/),
+// set this to that path - leading slash, no trailing slash. Leave as
+// '' if it's hosted at the root. Every internal link, stylesheet, icon,
+// and generated thumbnail URL is built from this, via ri_url() in
+// includes/render.php - get it right here rather than editing paths
+// throughout the templates.
+define('BASE_PATH', '/ReadIt');
+
 define('DB_PATH', __DIR__ . '/../data/feeds.sqlite');
 
 // How long a fetched feed is considered fresh, in seconds, before
@@ -35,7 +44,7 @@ define('MAX_IMMEDIATE_THUMBNAILS_PER_REFRESH', 20);
 // Local, pre-cropped image derivatives live here, served directly as
 // static files - no PHP involved in serving them.
 define('THUMBNAIL_DIR', __DIR__ . '/../thumbs');
-define('THUMBNAIL_URL_PATH', '/thumbs');
+define('THUMBNAIL_URL_PATH', BASE_PATH . '/thumbs');
 define('THUMBNAIL_SIZE', 140);       // square list thumbnail, px
 define('FULL_IMAGE_MAX_WIDTH', 640); // uncropped detail-page image, px
 define('THUMBNAIL_JPEG_QUALITY', 82);

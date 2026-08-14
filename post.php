@@ -15,7 +15,7 @@ if (!$row) {
     $pageTitle = 'Not found - ' . SITE_NAME;
     require __DIR__ . '/includes/header.php';
     echo '<p class="empty">That post doesn\'t exist (maybe it aged out of the cache).</p>';
-    echo '<div id="nav"><a href="/">&lsaquo; back to ' . ri_h(SITE_NAME) . '</a></div>';
+    echo '<div id="nav"><a href="' . ri_h(ri_url('/')) . '">&lsaquo; back to ' . ri_h(SITE_NAME) . '</a></div>';
     require __DIR__ . '/includes/footer.php';
     exit;
 }
@@ -47,7 +47,7 @@ require __DIR__ . '/includes/header.php';
 </div>
 
 <div id="nav">
-  <a href="/">&lsaquo; back to <?php echo ri_h(SITE_NAME); ?></a>
+  <a href="<?php echo ri_h(ri_url('/')); ?>">&lsaquo; back to <?php echo ri_h(SITE_NAME); ?></a>
 </div>
 
 <?php require __DIR__ . '/includes/footer.php'; ?>

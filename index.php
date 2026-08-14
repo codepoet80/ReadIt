@@ -49,7 +49,7 @@ require __DIR__ . '/includes/header.php';
           <div class="postMeta">
             <?php echo ri_h(ri_time_ago($row['pub_date'])); ?>
             &mdash; <span class="source"><?php echo ri_h($GLOBALS['FEEDS'][$row['source']]['label']); ?></span>
-            &mdash; <a href="/post.php?id=<?php echo (int) $row['id']; ?>">details</a>
+            &mdash; <a href="<?php echo ri_h(ri_url('/post.php?id=' . (int) $row['id'])); ?>">details</a>
           </div>
           <?php $teaser = ri_teaser($row['description']); ?>
           <?php if ($teaser !== ''): ?>
@@ -63,11 +63,11 @@ require __DIR__ . '/includes/header.php';
 
   <div id="nav">
     <?php if ($page > 1): ?>
-      <a href="/?page=<?php echo $page - 1; ?>">&lsaquo; prev</a>
+      <a href="<?php echo ri_h(ri_url('/?page=' . ($page - 1))); ?>">&lsaquo; prev</a>
     <?php endif; ?>
     <?php if ($page > 1 && $hasNext): ?> | <?php endif; ?>
     <?php if ($hasNext): ?>
-      <a href="/?page=<?php echo $page + 1; ?>">next &rsaquo;</a>
+      <a href="<?php echo ri_h(ri_url('/?page=' . ($page + 1))); ?>">next &rsaquo;</a>
     <?php endif; ?>
   </div>
 <?php endif; ?>

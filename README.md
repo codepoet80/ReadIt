@@ -31,8 +31,8 @@ built to work on a webOS TouchPad) as well as any modern browser or phone.
 - `gd` extension, ideally built with WebP read support (see [How thumbnails work](#how-thumbnails-work))
 - `curl` extension recommended (falls back to `file_get_contents` + `allow_url_fopen` if it's
   not available)
-- Apache with `.htaccess` support (`mod_authz_core` or `mod_access_compat`), or see
-  [Deploying on nginx](#deploying-on-nginx) for the equivalent config
+- Any web server that can run PHP — on nginx, see [Deploying on nginx](#deploying-on-nginx)
+  for the config you'll need instead of the included (Apache-only) `.htaccess` files
 
 ## File layout
 
@@ -143,16 +143,40 @@ then `tail data/cron.log` after the first scheduled run goes by.
 
 ## Deploying on nginx
 
-The `.htaccess` files only work on Apache. On nginx, add equivalent rules to your server
-block instead:
+The `.htaccess` files are Apache-only — nginx never reads them, so they're just inert on an
+nginx host (harmless to leave in place, in case you ever move to Apache). Use rules like
+these in your `server {}` block instead:
 
 ```nginx
-location ~ ^/(data|includes)/ {
+location ^~ /includes/ {
     deny all;
     return 404;
 }
 
-location /thumbs/ {
-    autoindex off;
+location ^~ /data/ {
+    deny all;
+    return 404;
+}
+
+location ^~ /thumbs/ {
+    autoindex off; # off by default anyway, but explicit here
 }
 ```
+
+Use `^~` here rather than a plain regex `location ~ ...` block. Your config almost certainly
+also has a regex location for handing `.php` requests to PHP-FPM, e.g.:
+
+```nginx
+location ~ \.php$ {
+    fastcgi_pass unix:/run/php/php-fpm.sock;
+    ...
+}
+```
+
+Nginx picks between competing *regex* locations by whichever appears first in the config
+file — so a plain `location ~ ^/(data|includes)/` deny rule would only actually protect
+`includes/*.php` if it happened to be declared before the PHP block. `^~` sidesteps that:
+prefix matches using `^~` always win over any regex location, regardless of where either one
+is declared, so `/includes/config.php` is guaranteed to be denied before PHP-FPM ever sees
+it — the whole point, since everything in `includes/` is PHP meant to be `require`'d, not
+requested directly.
