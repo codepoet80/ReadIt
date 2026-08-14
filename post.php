@@ -28,7 +28,7 @@ require __DIR__ . '/includes/header.php';
   <div class="post postSingle">
     <div class="postBody">
       <div class="title">
-        <a class="postLink" href="<?php echo ri_h($row['link']); ?>"><?php echo ri_h($row['title']); ?></a>
+        <a class="postLink" href="<?php echo ri_h($row['link']); ?>" target="_blank" rel="noopener noreferrer"><?php echo ri_h($row['title']); ?></a>
         <span class="domain">(<?php echo ri_h(ri_domain($row['link'])); ?>)</span>
       </div>
       <div class="postMeta">
@@ -41,7 +41,7 @@ require __DIR__ . '/includes/header.php';
       <div class="fullText">
         <?php echo ri_clean_description($row['description']); ?>
       </div>
-      <p><a class="postLink" href="<?php echo ri_h($row['link']); ?>">Read the full article on <?php echo ri_h(ri_domain($row['link'])); ?> &rsaquo;</a></p>
+      <p><a class="postLink" href="<?php echo ri_h($row['link']); ?>" target="_blank" rel="noopener noreferrer">Read the full article on <?php echo ri_h(ri_domain($row['link'])); ?> &rsaquo;</a></p>
     </div>
   </div>
 </div>

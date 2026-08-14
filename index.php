@@ -40,10 +40,10 @@ require __DIR__ . '/includes/header.php';
     <?php foreach ($rows as $row): ?>
       <div class="post">
         <span class="rank"><?php echo (int) $rank; ?>.</span>
-        <a class="thumb" href="<?php echo ri_h($row['link']); ?>"><?php if ($row['thumbnail']): ?><img src="<?php echo ri_h($row['thumbnail']); ?>" alt="" width="70" height="70"><?php endif; ?></a>
+        <a class="thumb" href="<?php echo ri_h($row['link']); ?>" target="_blank" rel="noopener noreferrer"><?php if ($row['thumbnail']): ?><img src="<?php echo ri_h($row['thumbnail']); ?>" alt="" width="70" height="70"><?php endif; ?></a>
         <div class="postBody">
           <div class="title">
-            <a class="postLink" href="<?php echo ri_h($row['link']); ?>"><?php echo ri_h($row['title']); ?></a>
+            <a class="postLink" href="<?php echo ri_h($row['link']); ?>" target="_blank" rel="noopener noreferrer"><?php echo ri_h($row['title']); ?></a>
             <span class="domain">(<?php echo ri_h(ri_domain($row['link'])); ?>)</span>
           </div>
           <div class="postMeta">
