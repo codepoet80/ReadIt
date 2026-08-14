@@ -180,3 +180,7 @@ prefix matches using `^~` always win over any regex location, regardless of wher
 is declared, so `/includes/config.php` is guaranteed to be denied before PHP-FPM ever sees
 it — the whole point, since everything in `includes/` is PHP meant to be `require`'d, not
 requested directly.
+
+## Icon Credit
+
+Monster icon created by Magnific - Flaticon
