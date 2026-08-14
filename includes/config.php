@@ -57,6 +57,6 @@ $GLOBALS['FEEDS'] = array(
     ),
     'psychologytoday' => array(
         'label' => 'Psychology Today',
-        'url'   => 'https://www.psychologytoday.com/us/front/feed',
+        'url'   => 'https://www.psychologytoday.com/us/news/feed',
     ),
 );
