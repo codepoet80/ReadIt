@@ -7,26 +7,39 @@ require_once __DIR__ . '/includes/render.php';
 $pdo = ri_get_db();
 ri_refresh_if_stale($pdo);
 
-$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-if ($page < 1) {
+$isRandom = isset($_GET['random']);
+
+if ($isRandom) {
+    $stmt = $pdo->prepare('SELECT * FROM items ORDER BY RANDOM() LIMIT :limit');
+    $stmt->bindValue(':limit', ITEMS_PER_PAGE, PDO::PARAM_INT);
+    $stmt->execute();
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $hasNext = false;
+    $rankStart = 1;
     $page = 1;
+} else {
+    $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+    if ($page < 1) {
+        $page = 1;
+    }
+    $offset = ($page - 1) * ITEMS_PER_PAGE;
+
+    // Ask for one extra row so we know whether a "next" page exists
+    // without a second COUNT(*) query.
+    $stmt = $pdo->prepare('SELECT * FROM items ORDER BY pub_date DESC LIMIT :limit OFFSET :offset');
+    $stmt->bindValue(':limit', ITEMS_PER_PAGE + 1, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $hasNext = count($rows) > ITEMS_PER_PAGE;
+    if ($hasNext) {
+        array_pop($rows);
+    }
+    $rankStart = $offset + 1;
 }
-$offset = ($page - 1) * ITEMS_PER_PAGE;
 
-// Ask for one extra row so we know whether a "next" page exists
-// without a second COUNT(*) query.
-$stmt = $pdo->prepare('SELECT * FROM items ORDER BY pub_date DESC LIMIT :limit OFFSET :offset');
-$stmt->bindValue(':limit', ITEMS_PER_PAGE + 1, PDO::PARAM_INT);
-$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-$stmt->execute();
-$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$hasNext = count($rows) > ITEMS_PER_PAGE;
-if ($hasNext) {
-    array_pop($rows);
-}
-
-$pageTitle = SITE_NAME;
+$pageTitle = $isRandom ? SITE_NAME . ' - random' : SITE_NAME;
 require __DIR__ . '/includes/header.php';
 ?>
 
@@ -36,7 +49,7 @@ require __DIR__ . '/includes/header.php';
   </p>
 <?php else: ?>
   <div id="postList">
-    <?php $rank = $offset + 1; ?>
+    <?php $rank = $rankStart; ?>
     <?php foreach ($rows as $row): ?>
       <div class="post">
         <span class="rank"><?php echo (int) $rank; ?>.</span>
@@ -62,12 +75,19 @@ require __DIR__ . '/includes/header.php';
   </div>
 
   <div id="nav">
-    <?php if ($page > 1): ?>
-      <a href="<?php echo ri_h(ri_url('/?page=' . ($page - 1))); ?>">&lsaquo; prev</a>
-    <?php endif; ?>
-    <?php if ($page > 1 && $hasNext): ?> | <?php endif; ?>
-    <?php if ($hasNext): ?>
-      <a href="<?php echo ri_h(ri_url('/?page=' . ($page + 1))); ?>">next &rsaquo;</a>
+    <?php if ($isRandom): ?>
+      <a href="<?php echo ri_h(ri_url('/')); ?>">&lsaquo; back to latest</a>
+      | <a href="<?php echo ri_h(ri_url('/?random=1')); ?>">shuffle again</a>
+    <?php else: ?>
+      <?php if ($page > 1): ?>
+        <a href="<?php echo ri_h(ri_url('/?page=' . ($page - 1))); ?>">&lsaquo; prev</a>
+        |
+      <?php endif; ?>
+      <?php if ($hasNext): ?>
+        <a href="<?php echo ri_h(ri_url('/?page=' . ($page + 1))); ?>">next &rsaquo;</a>
+        |
+      <?php endif; ?>
+      <a href="<?php echo ri_h(ri_url('/?random=1')); ?>">random 25</a>
     <?php endif; ?>
   </div>
 <?php endif; ?>
