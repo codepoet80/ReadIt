@@ -13,6 +13,15 @@ define('SITE_TAGLINE', 'scroll without the brainrot');
 // throughout the templates.
 define('BASE_PATH', '/ReadIt');
 
+// Full scheme+host, no trailing slash. Only used to build absolute
+// URLs for social-sharing meta tags (og:url, og:image, etc) - those
+// need to be absolute, unlike everything else on the site, which gets
+// by fine with the root-relative URLs ri_url() builds. Kept as an
+// explicit setting rather than detected from the request, since
+// auto-detecting scheme/host behind a reverse proxy is a common
+// source of silently-wrong URLs.
+define('SITE_ORIGIN', 'https://apps.jonandnic.com');
+
 define('DB_PATH', __DIR__ . '/../data/feeds.sqlite');
 
 // How long a fetched feed is considered fresh, in seconds, before

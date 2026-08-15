@@ -2,12 +2,37 @@
 if (!isset($pageTitle)) {
     $pageTitle = SITE_NAME;
 }
+if (!isset($pageDescription)) {
+    $pageDescription = SITE_TAGLINE;
+}
+if (!isset($pageImage)) {
+    $pageImage = SITE_ORIGIN . ri_url('/icons/og-image.png');
+}
+if (!isset($ogType)) {
+    $ogType = 'website';
+}
+$pageUrl = SITE_ORIGIN . (isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : ri_url('/'));
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <title><?php echo ri_h($pageTitle); ?></title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Social sharing: what shows up when a link to this site gets
+     pasted into Slack, iMessage, X, Discord, etc. -->
+<meta name="description" content="<?php echo ri_h($pageDescription); ?>">
+<link rel="canonical" href="<?php echo ri_h($pageUrl); ?>">
+<meta property="og:type" content="<?php echo ri_h($ogType); ?>">
+<meta property="og:site_name" content="<?php echo ri_h(SITE_NAME); ?>">
+<meta property="og:url" content="<?php echo ri_h($pageUrl); ?>">
+<meta property="og:title" content="<?php echo ri_h($pageTitle); ?>">
+<meta property="og:description" content="<?php echo ri_h($pageDescription); ?>">
+<meta property="og:image" content="<?php echo ri_h($pageImage); ?>">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="<?php echo ri_h($pageTitle); ?>">
+<meta name="twitter:description" content="<?php echo ri_h($pageDescription); ?>">
+<meta name="twitter:image" content="<?php echo ri_h($pageImage); ?>">
 
 <!-- Home-screen pinning: manifest for modern browsers, apple meta
      tags for iOS-style "add to home screen". No service worker on

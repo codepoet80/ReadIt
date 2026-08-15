@@ -21,6 +21,12 @@ if (!$row) {
 }
 
 $pageTitle = $row['title'] . ' - ' . SITE_NAME;
+$ogType = 'article';
+$teaser = ri_teaser($row['description'], 300);
+$pageDescription = $teaser !== '' ? $teaser : SITE_TAGLINE;
+if ($row['full_image']) {
+    $pageImage = SITE_ORIGIN . $row['full_image'];
+}
 require __DIR__ . '/includes/header.php';
 ?>
 
